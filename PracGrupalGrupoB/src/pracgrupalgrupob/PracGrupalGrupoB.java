@@ -34,7 +34,14 @@ public class PracGrupalGrupoB {
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner entrada = new Scanner(System.in);
-		String fileName = "Datos.dat";
+        
+        final int MAXPOTIONS= 10;
+        final int MAXITEMS= 10;
+        final int EXPERIENCE= 10;
+        
+        int topePotions=0;
+        int topeItems=0;
+        int raza;//1-humano,2-orco,3-elfo,4-enano
         int opcion;
         do 
         {
