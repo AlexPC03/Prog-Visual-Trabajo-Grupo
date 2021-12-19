@@ -33,6 +33,12 @@ public class PracGrupalGrupoB {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        String nombreArchivoTextoPocimas="pjpocimas.txt";
+        String nombreArchivoTextoItems="pjitems.txt";
+        String nombreArchivoBinPocimas="pocimas.dat";
+        String nombreArchivoBinItems="items.dat";
+        
         Scanner entrada = new Scanner(System.in);
         
         final int MAXPOTIONS= 10;
@@ -124,5 +130,57 @@ public class PracGrupalGrupoB {
                 System.out.println("Opción no válida");
             }
         }while (opcion != 14);
+    }
+    public static int insertarPocimaOItem()
+    {
+        return 0;
+    }
+    public static int insertarPocimaOItemPos()
+    {
+        return 0;
+    }
+    public static void usarPocima()
+    {
+        
+    }
+    public static void tirarItem()
+    {
+        
+    }
+    public static void mostrarPocimaEItem()
+    {
+        
+    }
+    public static void mostrarPocimaEItemAlfabeticamente()
+    {
+        
+    }
+    public static void buscarPocimaOItem()
+    {
+        
+    }
+    public static void subidaNivel()
+    {
+        
+    }
+    public static void guardarEnFicheroTexto()
+    {
+        
+    }
+    public static void cargarDesdeFicheroTexto()
+    {
+        
+    }
+    public static void guardarEnFicheroBin()
+    {
+        
+    }
+    public static void cargarDesdeFicheroBin()
+    {
+        
+    }
+    public static void mostrarPuntosPocimas()
+    {
+        
     }
 }
