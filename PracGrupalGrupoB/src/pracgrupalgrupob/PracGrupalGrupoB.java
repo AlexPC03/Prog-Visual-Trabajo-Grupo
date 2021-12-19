@@ -6,11 +6,26 @@
 package pracgrupalgrupob;
 
 import java.util.Scanner;
-
+import java.io.Serializable;
 /**
  *
  * @author alex,dani,carlos
  */
+
+class Potion implements Serializable
+{
+    int id;
+    String name,description;
+    int type;//1-Life,2-Magic,3-Poison
+    int points;
+}
+class Item implements Serializable
+{
+    int id;
+    String name,description;
+    int type;//1-Weapon,2-Armour,3-Miscellany
+    int experience;
+}
 public class PracGrupalGrupoB {
 
     /**
@@ -19,10 +34,18 @@ public class PracGrupalGrupoB {
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner entrada = new Scanner(System.in);
+        
+        final int MAXPOTIONS= 10;
+        final int MAXITEMS= 10;
+        final int EXPERIENCE= 10;
+        
+        int topePotions=0;
+        int topeItems=0;
+        int raza;//1-humano,2-orco,3-elfo,4-enano
         int opcion;
         do 
         {
-           System.out.println("Bienvenido a Ihnoldur");
+           System.out.println("Bienvenido a Ihnildur");
            System.out.println("Menú:");
            System.out.println("1. Insertar pócima e ítem");
            System.out.println("2. Insertar pócima o ítem en posición determinada");
