@@ -6,7 +6,7 @@
 package pracgrupalgrupob;
 
 import java.util.Scanner;
-import java.io.Serializable;
+import java.io.*;
 /**
  *
  * @author alex,dani,carlos
@@ -34,10 +34,10 @@ public class PracGrupalGrupoB {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        String nombreArchivoTextoPocimas="pjpocimas.txt";
-        String nombreArchivoTextoItems="pjitems.txt";
-        String nombreArchivoBinPocimas="pocimas.dat";
-        String nombreArchivoBinItems="items.dat";
+        final String nombreArchivoTextoPocimas="potions.txt";
+        final String nombreArchivoTextoItems="items.txt";
+        final String nombreArchivoBinPocimas="potions.dat";
+        final String nombreArchivoBinItems="items.dat";
         
         Scanner entrada = new Scanner(System.in);
         
@@ -364,6 +364,7 @@ public class PracGrupalGrupoB {
         do
         {
             System.out.println(texto);
+            entrada.nextLine();
             linea=entrada.nextLine();
             if(linea.trim().length() == 0)
             {
@@ -457,112 +458,119 @@ public class PracGrupalGrupoB {
     {
         
     }
+    //da
     public static void guardarEnFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
         
+        String savefile = selectSaveFile(nombreArchivoTextoPocimas,nombreArchivoTextoItems);
+        
+        try{
+        
+            BufferedWriter write = new BufferedWriter(new FileWriter(savefile));
+            
+            if(savefile.equals(nombreArchivoTextoPocimas)){
+            
+                for(int i = 0; i < potionList.length; i++){
+                    
+                    write.write(potionList[i].name + "\n");
+                    
+                }
+                
+            } else {
+                
+                for(int i = 0; i < itemList.length; i++){
+                    
+                    write.write(itemList[i].name);
+                    
+                }
+                
+            }
+            
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        
     }
+    //da
     public static void cargarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
         
+        try{
+        
+            BufferedReader read = new BufferedReader(new FileReader("save.txt"));
+            
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        
     }
+    //da
     public static void guardarEnFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
     {
         
+        
+        
+        
+        
+        try{
+        
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("bin_save.sav"));
+            
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        
     }
+    //da
     public static void cargarDesdeFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
     {
+        
+        try{
+        
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("bin_save.sav"));
+            
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
         
     }
     public static void mostrarPuntosPocimas(Scanner entrada, Potion[] potionList, int topePotions)
     {
         
     }
-    public static int obtenerNumero(Scanner entrada, String texto,int min, int max)
-    {
-        int num;       
-        do
-        {
-            System.out.println(texto);
-            num = entrada.nextInt();
-            if(num>max || num<min)
-            {
-                System.out.println("Valor no válido");
+    
+    public static String selectSaveFile(String Potions, String Items){
+        //variables locales:
+        Scanner input = new Scanner(System.in);        
+        String filename = "_";
+        
+        
+        //escoger opcion:
+        do{
+            System.out.println("Escoja una opción:");
+            System.out.println("1 - Guardar pociones.");
+            System.out.println("2 - Guardar objetos.");           
+            
+            switch(input.nextInt()){
+                default:
+                    System.out.println("ERROR: Opción no valida!");                    
+                    break;
+                case 1:
+                    System.out.println("Guardando pociones...");                    
+                    filename = Potions;
+                    break;
+                case 2:
+                    System.out.println("Guardando objetos...");                    
+                    filename = Items;
+                    break;
             }
-        }while(num>max || num<min);
-        return num;
-    } 
-    public static int obtenerNumero(Scanner entrada, String texto,int min)
-    {
-        int num;       
-        do
-        {
-            System.out.println(texto);
-            num = entrada.nextInt();
-            if(num<min)
-            {
-                System.out.println("Valor no válido");
-            }
-        }while(num<min);
-        return num;
+            
+        }while(filename.equals("_"));
+        
+        return filename;
     }
-    public static int obtenerIdPocion(Scanner entrada, String texto, Potion[] potionList, int topePotions)
-    {
-        int num;       
-        do
-        {
-            System.out.println(texto);
-            num = entrada.nextInt();
-            if(num<1)
-            {
-                System.out.println("Valor no válido");
-            }
-            //Verificamos que no se repita
-            for (int f=0;f<topePotions;f++)
-            {
-                if (potionList[f].id == num)
-                {
-                    System.out.println("Indice Repetido");
-                    num=0;
-                }
-            }
-        }while(num<1);        
-        return num;
-    }
-    public static int obtenerIdItem(Scanner entrada, String texto, Item[] itemList, int topeItems)
-    {
-        int num;       
-        do
-        {
-            System.out.println(texto);
-            num = entrada.nextInt();
-            if(num<1)
-            {
-                System.out.println("Valor no válido");
-            }
-            //Verificamos que no se repita
-            for (int f=0;f<topeItems;f++)
-            {
-                if (itemList[f].id == num)
-                {
-                    System.out.println("Indice Repetido");
-                    num=0;
-                }
-            }
-        }while(num<1);        
-        return num;
-    }
-    public static String obtenerLinea(Scanner entrada, String texto)
-    {
-        String linea;
-        do
-        {
-            System.out.println(texto);
-            linea=entrada.nextLine();
-            if(linea.trim().length() == 0)
-            {
-                System.out.println("Nombre no válido");
-            }
-        }while(linea.trim().length() == 0);
-        return linea;
-    }
+    
+    
+    
+
 }
