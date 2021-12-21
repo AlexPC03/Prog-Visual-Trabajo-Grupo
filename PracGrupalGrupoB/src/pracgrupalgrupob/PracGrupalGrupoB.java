@@ -373,12 +373,67 @@ public class PracGrupalGrupoB {
         return linea;
     }
 
-    public static int usarPocima(Scanner entrada, Potion[] potionList, int topePotions)
-    {
-        return topePotions;
+     public static int usarPocima(Scanner entrada, Potion[] potionList, int topePotions)
+    {        
+        if(topePotions!=0)
+        {
+            for(int i=0;i<topePotions;i++)
+            {
+                if(i==topePotions-1)
+                {
+                    potionList[i].id = 0;
+                    potionList[i].name = "Vacío";
+                    potionList[i].description =  "Vacío";
+                    potionList[i].type = 0;
+                    potionList[i].points = 0;
+                }
+                else
+                {
+                potionList[i].id = potionList[i+1].id;                                        
+                }
+            }
+            return topePotions-1;
+        }
+        else
+        {
+            System.out.println("No hay pociones");    
+            return topePotions;
+        }        
     }
     public static int tirarItem(Scanner entrada, Item[] itemList, int topeItems)
     {
+        int pos;
+        int asegurar;
+        if(topeItems!=0)
+        {
+            pos=obtenerNumero(entrada,"¿Qué item quieres tirar?",0,topeItems);
+            asegurar=obtenerNumero(entrada,"¿Estas seguro de que quieres este item: 1-Si 2-No?",1,2);
+            if(asegurar==1)
+            {
+                for(int i=0;i<topeItems;i++)
+                {
+                    if(i==topeItems-1)
+                    {
+                        itemList[i].id = 0;
+                        itemList[i].name = "Vacío";
+                        itemList[i].description =  "Vacío";
+                        itemList[i].type = 0;
+                        itemList[i].experience = 0;
+                    }
+                    else
+                    {
+                    itemList[i].id = itemList[i+1].id;                    
+                       
+                    }
+                }
+                return topeItems-1;
+            }
+        }
+        else
+        {
+            System.out.println("No hay items");    
+            return topeItems;
+        }        
         return topeItems;
     }
     public static void mostrarPocimaEItem(Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
@@ -422,5 +477,92 @@ public class PracGrupalGrupoB {
     {
         
     }
-
+    public static int obtenerNumero(Scanner entrada, String texto,int min, int max)
+    {
+        int num;       
+        do
+        {
+            System.out.println(texto);
+            num = entrada.nextInt();
+            if(num>max || num<min)
+            {
+                System.out.println("Valor no válido");
+            }
+        }while(num>max || num<min);
+        return num;
+    } 
+    public static int obtenerNumero(Scanner entrada, String texto,int min)
+    {
+        int num;       
+        do
+        {
+            System.out.println(texto);
+            num = entrada.nextInt();
+            if(num<min)
+            {
+                System.out.println("Valor no válido");
+            }
+        }while(num<min);
+        return num;
+    }
+    public static int obtenerIdPocion(Scanner entrada, String texto, Potion[] potionList, int topePotions)
+    {
+        int num;       
+        do
+        {
+            System.out.println(texto);
+            num = entrada.nextInt();
+            if(num<1)
+            {
+                System.out.println("Valor no válido");
+            }
+            //Verificamos que no se repita
+            for (int f=0;f<topePotions;f++)
+            {
+                if (potionList[f].id == num)
+                {
+                    System.out.println("Indice Repetido");
+                    num=0;
+                }
+            }
+        }while(num<1);        
+        return num;
+    }
+    public static int obtenerIdItem(Scanner entrada, String texto, Item[] itemList, int topeItems)
+    {
+        int num;       
+        do
+        {
+            System.out.println(texto);
+            num = entrada.nextInt();
+            if(num<1)
+            {
+                System.out.println("Valor no válido");
+            }
+            //Verificamos que no se repita
+            for (int f=0;f<topeItems;f++)
+            {
+                if (itemList[f].id == num)
+                {
+                    System.out.println("Indice Repetido");
+                    num=0;
+                }
+            }
+        }while(num<1);        
+        return num;
+    }
+    public static String obtenerLinea(Scanner entrada, String texto)
+    {
+        String linea;
+        do
+        {
+            System.out.println(texto);
+            linea=entrada.nextLine();
+            if(linea.trim().length() == 0)
+            {
+                System.out.println("Nombre no válido");
+            }
+        }while(linea.trim().length() == 0);
+        return linea;
+    }
 }
