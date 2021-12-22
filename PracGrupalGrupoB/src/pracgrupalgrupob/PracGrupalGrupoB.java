@@ -166,7 +166,7 @@ public class PracGrupalGrupoB {
                case 9:
                 //Dani
                 System.out.println("----------------------------------------------------------");
-                guardarEnFicheroTexto(nombreArchivoTextoPocimas,potionList, topePotions, nombreArchivoTextoItems,itemList, topeItems);
+                guardarEnFicheroTexto(entrada,nombreArchivoTextoPocimas,potionList, topePotions, nombreArchivoTextoItems,itemList, topeItems);
                 break;
                case 10:
                 //Dani
@@ -382,15 +382,11 @@ public class PracGrupalGrupoB {
             {
                 if(i==topePotions-1)
                 {
-                    potionList[i].id = 0;
-                    potionList[i].name = "Vacío";
-                    potionList[i].description =  "Vacío";
-                    potionList[i].type = 0;
-                    potionList[i].points = 0;
+                    potionList[i]=new Potion();
                 }
                 else
                 {
-                potionList[i].id = potionList[i+1].id;                                        
+                potionList[i] = potionList[i+1];                                        
                 }
             }
             return topePotions-1;
@@ -415,15 +411,11 @@ public class PracGrupalGrupoB {
                 {
                     if(i==topeItems-1)
                     {
-                        itemList[i].id = 0;
-                        itemList[i].name = "Vacío";
-                        itemList[i].description =  "Vacío";
-                        itemList[i].type = 0;
-                        itemList[i].experience = 0;
+                        itemList[i]=new Item();
                     }
                     else
                     {
-                    itemList[i].id = itemList[i+1].id;                    
+                    itemList[i] = itemList[i+1];                    
                        
                     }
                 }
@@ -459,34 +451,28 @@ public class PracGrupalGrupoB {
         
     }
     //da
-    public static void guardarEnFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
+    public static void guardarEnFicheroTexto(Scanner entrada,String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-        
-        String savefile = selectSaveFile(nombreArchivoTextoPocimas,nombreArchivoTextoItems);
-        
+        String savefile = selectSaveFile(entrada,nombreArchivoTextoPocimas,nombreArchivoTextoItems);
         try{
-        
             BufferedWriter write = new BufferedWriter(new FileWriter(savefile));
-            
-            if(savefile.equals(nombreArchivoTextoPocimas)){
-            
-                for(int i = 0; i < potionList.length; i++){
-                    
-                    write.write(potionList[i].name + "\n");
-                    
+            if(savefile.equals(nombreArchivoTextoPocimas))
+            {
+                for(int i = 0; i < potionList.length; i++)
+                {   
+                    write.write(potionList[i].name + "\n"); 
                 }
-                
-            } else {
-                
+            } 
+            else
+            {
                 for(int i = 0; i < itemList.length; i++){
                     
                     write.write(itemList[i].name);
-                    
                 }
-                
             }
-            
-        } catch(IOException e){
+        } 
+        catch(IOException e)
+        {
             System.out.println(e.getMessage());
         }
         
@@ -494,12 +480,12 @@ public class PracGrupalGrupoB {
     //da
     public static void cargarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-        
-        try{
-        
-            BufferedReader read = new BufferedReader(new FileReader("save.txt"));
-            
-        } catch(IOException e){
+        try
+        {
+            BufferedReader read = new BufferedReader(new FileReader(""));   
+        } 
+        catch(IOException e)
+        {
             System.out.println(e.getMessage());
         }
         
@@ -507,16 +493,12 @@ public class PracGrupalGrupoB {
     //da
     public static void guardarEnFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
     {
-        
-        
-        
-        
-        
-        try{
-        
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("bin_save.sav"));
-            
-        } catch(IOException e){
+        try
+        {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(""));   
+        } 
+        catch(IOException e)
+        {
             System.out.println(e.getMessage());
         }
         
@@ -527,7 +509,7 @@ public class PracGrupalGrupoB {
         
         try{
         
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("bin_save.sav"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(""));
             
         } catch(IOException e){
             System.out.println(e.getMessage());
@@ -539,22 +521,17 @@ public class PracGrupalGrupoB {
         
     }
     
-    public static String selectSaveFile(String Potions, String Items){
+    public static String selectSaveFile(Scanner entrada,String Potions, String Items){
         //variables locales:
-        Scanner input = new Scanner(System.in);        
-        String filename = "_";
-        
-        
+        int pos;      
+        String filename = "_";                
         //escoger opcion:
-        do{
-            System.out.println("Escoja una opción:");
-            System.out.println("1 - Guardar pociones.");
-            System.out.println("2 - Guardar objetos.");           
-            
-            switch(input.nextInt()){
-                default:
-                    System.out.println("ERROR: Opción no valida!");                    
-                    break;
+        do
+        {
+            pos=obtenerNumero(entrada,"¿Qué quieres guardar?: 1-Pociones 2-Items",1,2);      
+            switch(pos)
+            {
+                
                 case 1:
                     System.out.println("Guardando pociones...");                    
                     filename = Potions;
@@ -563,10 +540,11 @@ public class PracGrupalGrupoB {
                     System.out.println("Guardando objetos...");                    
                     filename = Items;
                     break;
-            }
-            
+                default:
+                    System.out.println("ERROR: Opción no valida!");                    
+                    break;
+            } 
         }while(filename.equals("_"));
-        
         return filename;
     }
     
