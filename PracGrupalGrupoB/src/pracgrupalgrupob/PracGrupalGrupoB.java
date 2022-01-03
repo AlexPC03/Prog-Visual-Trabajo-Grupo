@@ -431,7 +431,53 @@ public class PracGrupalGrupoB {
     }
     public static void mostrarPocimaEItem(Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
     {
-        
+        int i, maxP = 0, maxI = 0;
+        int minP = potionList[0].points;
+        int minI = itemList[0].experience;
+        System.out.println("El numero de pócimas son: " + topePotions);
+        for(i = 0; i < topePotions; i++){
+            if(potionList[i].points > maxP){
+                maxP = potionList[i].points;
+            }
+        }
+        System.out.println("La pocima com mayor numero de puntos es: " + maxP);
+        for(i = 0; i < topePotions; i++){        
+            if(potionList[i].points < minP){
+                minP = potionList[i].points;
+            }
+        }
+        System.out.println("La pócima con menor numero de puntos es: " + minP);
+        for(i = 0; i < topePotions; i++){
+            System.out.println("----------------------");
+            System.out.println("ID: " + potionList[i].id);
+            System.out.println("Nombre: " + potionList[i].name);
+            System.out.println("Descripción " + potionList[i].description);
+            System.out.println("Tipo: " + potionList[i].type);
+            System.out.println("Puntos: " + potionList[i].points);
+            System.out.println("----------------------");
+        }
+        System.out.println("El numero de items son: " + topeItems);
+        for(i = 0; i < topeItems; i++){
+            if(itemList[i].experience > maxI){
+                maxI = itemList[i].experience;
+            }
+        }
+        System.out.println("El item com mayor experiencia es: " + maxI);
+        for(i = 0; i < topeItems; i++){        
+            if(itemList[i].experience < minI){
+                minI = itemList[i].experience;
+            }
+        }
+        System.out.println("La pócima con menor experiencia es: " + minI);
+        for(i = 0; i < topeItems; i++){
+            System.out.println("----------------------");
+            System.out.println("ID: " + itemList[i].id);
+            System.out.println("Nombre: " + itemList[i].name);
+            System.out.println("Descripción " + itemList[i].description);
+            System.out.println("Tipo: " + itemList[i].type);
+            System.out.println("Experiencia: " + itemList[i].experience);
+            System.out.println("----------------------");
+        }
     }
     public static void mostrarPocimaEItemAlfabeticamente(Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
     {
@@ -440,15 +486,48 @@ public class PracGrupalGrupoB {
 
     public static void buscarPocima(Scanner entrada, Potion[] potionList, int topePotions)    
     {
-        
+        int pocima;
+        System.out.println("Por favor, Introduzca una posición existente para la lista seleccionada: ");
+        pocima = entrada.nextInt();
+        if(pocima < topePotions){
+            System.out.println("----------------------");
+            System.out.println("ID: " + potionList[pocima].id);
+            System.out.println("Nombre: " + potionList[pocima].name);
+            System.out.println("Descripción " + potionList[pocima].description);
+            System.out.println("Tipo: " + potionList[pocima].type);
+            System.out.println("Puntos: " + potionList[pocima].points);
+            System.out.println("----------------------");
+        }else{
+            System.out.println("La posicion seleccionada no existe ");
+        }
     }
     public static void buscarItem(Scanner entrada, Item[] itemList, int topeItems)    
     {
-        
+        int objeto;
+        System.out.println("Por favor, Introduzca una posición existente para la lista seleccionada: ");
+        objeto = entrada.nextInt();
+        if(objeto < topeItems){
+            System.out.println("----------------------");
+            System.out.println("ID: " + itemList[objeto].id);
+            System.out.println("Nombre: " + itemList[objeto].name);
+            System.out.println("Descripción " + itemList[objeto].description);
+            System.out.println("Tipo: " + itemList[objeto].type);
+            System.out.println("Experiencia: " + itemList[objeto].experience);
+            System.out.println("----------------------");
+        }else{
+            System.out.println("La posicion seleccionada no existe ");
+        }
     }
     public static void subidaNivel(int incremento, Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
     {
-        
+        for(int i = 0; i < topePotions; i++){
+            potionList[i].points = potionList[i].points + 10;
+        }
+        System.out.println("Todas las pociones han ganado 10 puntos");
+        for(int i = 0; i < topeItems; i++){
+            itemList[i].experience = itemList[i].experience + 10;
+        }
+        System.out.println("Todos los Items han ganado 10 de Experiencia");
     }
     //da
     public static void guardarEnFicheroTexto(Scanner entrada,String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
