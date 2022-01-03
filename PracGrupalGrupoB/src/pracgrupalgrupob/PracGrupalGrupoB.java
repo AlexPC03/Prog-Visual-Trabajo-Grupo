@@ -481,7 +481,20 @@ public class PracGrupalGrupoB {
     }
     public static void mostrarPocimaEItemAlfabeticamente(Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
     {
-       
+       Potion aux;
+       for (int i = 0; i < topePotions; i++) {
+            for (int j = 0; j < topePotions - i; j++) {
+                if (potionList[j] > potionList[i]){
+
+                    aux = potionList[j];
+
+                    potionList[j] = potionList[i];
+
+                    potionList[i] = aux;
+
+                }
+            }
+        }
     }
 
     public static void buscarPocima(Scanner entrada, Potion[] potionList, int topePotions)    
