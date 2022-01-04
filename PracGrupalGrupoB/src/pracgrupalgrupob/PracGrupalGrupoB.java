@@ -98,7 +98,6 @@ public class PracGrupalGrupoB {
                 {
                     topeItems = crearItem(entrada, itemList, topeItems);
                 }
-                
                 break;
                case 2:
                 //Alejandro
@@ -120,7 +119,6 @@ public class PracGrupalGrupoB {
                 {
                     System.out.println("No tienes esta ventaja");
                 }
-                
                 break;
                case 3:
                 //Alejandro
@@ -131,7 +129,6 @@ public class PracGrupalGrupoB {
                 //Alejandro
                 System.out.println("----------------------------------------------------------");
                 topeItems = tirarItem(entrada, itemList, topeItems);
-                
                 break;
                case 5:
                 //Carlos
@@ -156,7 +153,6 @@ public class PracGrupalGrupoB {
                 {
                     buscarItem(entrada, itemList, topeItems);
                 }
-                
                 break;
                case 8:
                 //Carlos
@@ -177,13 +173,12 @@ public class PracGrupalGrupoB {
                 //Dani
                 System.out.println("----------------------------------------------------------");
                 guardarEnFicheroBin(nombreArchivoBinPocimas,potionList, topePotions, nombreArchivoBinItems,itemList, topeItems);
-                
                 break;
                case 12:
                 //Dani
                 System.out.println("----------------------------------------------------------");
-                cargarDesdeFicheroBin(nombreArchivoBinPocimas,potionList, topePotions, nombreArchivoBinItems,itemList, topeItems);
-                
+                topePotions= cargarDesdeFicheroBinPotions(nombreArchivoBinPocimas,potionList);
+                topeItems= cargarDesdeFicheroBinItems(nombreArchivoBinItems, itemList);
                 break;
                case 13:                
                 //Alejandro
@@ -207,8 +202,8 @@ public class PracGrupalGrupoB {
             potionList[topePotions].id = obtenerIdPocion(entrada, "Introduzca el identificador de la pócima", potionList, topePotions);                    
             potionList[topePotions].name = obtenerLinea(entrada, "Introduzca el nombre de la pócima");                    
             potionList[topePotions].description = obtenerLinea(entrada, "Introduzca la descripción de la pócima");                                        
-            potionList[topePotions].type = obtenerNumero(entrada, "Introduzca el tipo de pócima: 1-Vida, 2-Magia, 3-Veneno",1,3);
-            potionList[topePotions].points = obtenerNumero(entrada, "Introduzca el número de puntos de la pócima",1);   
+            potionList[topePotions].type = obtenerNumero(entrada, "Introduzca el tipo de pócima: 1-Vida, 2-Magia, 3-Veneno",1);
+            potionList[topePotions].points = obtenerNumero(entrada, "Introduzca el número de puntos de la pócima",0);   
             topePotions++;
         }
         else
@@ -225,7 +220,7 @@ public class PracGrupalGrupoB {
             itemList[topeItems].id = obtenerIdItem(entrada, "Introduzca el identificador del item", itemList, topeItems);
             itemList[topeItems].name = obtenerLinea(entrada, "Introduzca el nombre del item");
             itemList[topeItems].description = obtenerLinea(entrada, "Introduzca la descripción del item");                    
-            itemList[topeItems].type = obtenerNumero(entrada, "Introduzca el tipo de pócima: 1-Arma, 2-Armadura, 3-Miscelanea",1,3);    
+            itemList[topeItems].type = obtenerNumero(entrada, "Introduzca el tipo de pócima: 1-Arma, 2-Armadura, 3-Miscelanea",1);    
             itemList[topeItems].experience=obtenerNumero(entrada, "Introduzca el número de puntos de experiencia del item",0);            
             topeItems++;
         }
@@ -244,7 +239,7 @@ public class PracGrupalGrupoB {
             String pocionName = obtenerLinea(entrada, "Introduzca el nombre de la pócima");                    
             String pocionDescription = obtenerLinea(entrada, "Introduzca la descripción de la pócima");                                        
             int pocionType = obtenerNumero(entrada, "Introduzca el tipo de pócima: 1-Vida, 2-Magia, 3-Veneno",1);
-            int pocionPoints = obtenerNumero(entrada, "Introduzca el número de puntos de la pócima",1);
+            int pocionPoints = obtenerNumero(entrada, "Introduzca el número de puntos de la pócima",0);
 
             int pos=obtenerNumero(entrada, "¿Que poción quieres sustituir?",0,topePotions);
 
@@ -363,8 +358,7 @@ public class PracGrupalGrupoB {
         String linea;
         do
         {
-            System.out.println(texto);
-            entrada.nextLine();
+            System.out.println(texto);    
             linea=entrada.nextLine();
             if(linea.trim().length() == 0)
             {
@@ -481,21 +475,61 @@ public class PracGrupalGrupoB {
     }
     public static void mostrarPocimaEItemAlfabeticamente(Potion[] potionList, int topePotions, Item[] itemList, int topeItems)
     {
-       Potion aux;
-       for (int i = 0; i < topePotions; i++) {
-            for (int j = 0; j < topePotions - i; j++) {
-                if (potionList[j] > potionList[i]){
+        //Clonamos el array de Potion para no alterar el array original
+       Potion[] potionListClon = new Potion[topePotions]; 
+       for (int f = 0;f<potionListClon.length;f++)
+       {
+           potionListClon[f] = potionList[f];
+       }
 
-                    aux = potionList[j];
+        //Clonamos el array de Item para no alterar el array original
+       Item[] itemListClon = new Item[topeItems]; 
+       for (int f = 0;f<itemListClon.length;f++)
+       {
+           itemListClon[f] = itemList[f];
+       }
 
-                    potionList[j] = potionList[i];
-
-                    potionList[i] = aux;
-
+       //Ordenamos el array clon de Potion con el método de la burbuja
+       for (int i = 1; i < potionListClon.length; i++) 
+       {
+            for (int j = 0; j < potionListClon.length - i; j++) 
+            {
+                if (Comparador(potionListClon[j], potionListClon[j+1]))
+                {
+                    Potion aux = potionListClon[j];
+                    potionListClon[j] = potionListClon[j+1];
+                    potionListClon[j+1] = aux;
                 }
             }
         }
+
+       //Ordenamos el array clon de Item con el método de la burbuja
+       for (int i = 1; i < itemListClon.length; i++) 
+       {
+            for (int j = 0; j < itemListClon.length - i; j++) 
+            {
+                if (Comparador(itemListClon[j], itemListClon[j+1]))
+                {
+                    Item aux = itemListClon[j];
+                    itemListClon[j] = itemListClon[j+1];
+                    itemListClon[j+1] = aux;
+                }
+            }
+        }
+
+       //Reutilizamos la función de mostrar pocimas e items pasandole los arrays clon ya ordenados
+       mostrarPocimaEItem(potionListClon, potionListClon.length, itemListClon, itemListClon.length);
     }
+    
+    public static boolean Comparador(Potion potion1, Potion potion2)
+    {
+        return potion1.name.compareTo(potion2.name)>0;
+    } 
+
+    public static boolean Comparador(Item item1, Item item2)
+    {
+        return item1.name.compareTo(item2.name)>0;
+    } 
 
     public static void buscarPocima(Scanner entrada, Potion[] potionList, int topePotions)    
     {
@@ -545,49 +579,31 @@ public class PracGrupalGrupoB {
     //da
     public static void guardarEnFicheroTexto(Scanner entrada,String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-        String savefile = selectSaveFile(entrada,nombreArchivoTextoPocimas,nombreArchivoTextoItems);
-        try{
-            BufferedWriter write = new BufferedWriter(new FileWriter(savefile));
-            if(savefile.equals(nombreArchivoTextoPocimas))
-            {
-                for(int i = 0; i < potionList.length; i++)
-                {   
-                    write.write(potionList[i].name + "\n"); 
-                }
-            } 
-            else
-            {
-                for(int i = 0; i < itemList.length; i++){
-                    
-                    write.write(itemList[i].name);
-                }
-            }
-        } 
-        catch(IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
+       switch(obtenerNumero(entrada,"¿Que quieres guardar? 1-Pócimas 2-Items 3-Ambos", topeItems, topeItems))
+       {
+           
+       }
     }
-    //da
-    public static void cargarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
+    public static void cargarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList,int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-        try
-        {
-            BufferedReader read = new BufferedReader(new FileReader(""));   
-        } 
-        catch(IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
         
     }
-    //da
     public static void guardarEnFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
     {
         try
         {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(""));   
+            ObjectOutputStream outP = new ObjectOutputStream(new FileOutputStream(nombreArchivoBinPocimas));
+            ObjectOutputStream outI = new ObjectOutputStream(new FileOutputStream(nombreArchivoBinItems));
+            for(int i=0;i<topePotions;i++)
+            {
+                outP.writeObject(potionList[i]);
+            }
+            for(int i=0;i<topeItems;i++)
+            {
+                outI.writeObject(itemList[i]);
+            }
+            outP.close();
+            outI.close();
         } 
         catch(IOException e)
         {
@@ -596,51 +612,66 @@ public class PracGrupalGrupoB {
         
     }
     //da
-    public static void cargarDesdeFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
+    public static int cargarDesdeFicheroBinPotions(String nombreArchivoBinPocimas,Potion[] potionList)
     {
-        
-        try{
-        
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(""));
+        int leidos=0;
+        try
+        {
+            ObjectInputStream inP = new ObjectInputStream(new FileInputStream(nombreArchivoBinPocimas));            
+            Potion potion;   
             
-        } catch(IOException e){
-            System.out.println(e.getMessage());
+            do
+            {
+                potion=(Potion) inP.readObject();
+                potionList[leidos]=potion;
+                leidos++;                
+            }while(leidos<potionList.length);             
+        } 
+        catch(EOFException eof)
+        {
+            //Final de fichero
         }
-        
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        } 
+        catch(ClassNotFoundException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+        return leidos;  
+    }
+    public static int cargarDesdeFicheroBinItems(String nombreArchivoBinItems, Item[] itemList)
+    {
+        int leidos=0;
+        try
+        {
+            ObjectInputStream inI = new ObjectInputStream(new FileInputStream(nombreArchivoBinItems));            
+            Item item;                   
+            do
+            {
+                item=(Item) inI.readObject();
+                itemList[leidos]=item;
+                leidos++; 
+            }while(leidos<itemList.length);       
+        } 
+        catch(EOFException eof)
+        {
+            //Final de fichero
+        }
+        catch(IOException e)
+        {
+            System.out.println(e.getMessage());
+        } 
+        catch(ClassNotFoundException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+        return leidos;  
     }
     public static void mostrarPuntosPocimas(Scanner entrada, Potion[] potionList, int topePotions)
     {
-        
+        int pos=obtenerNumero(entrada,"¿De que poción quieres saber los puntos?", 0, topePotions);
+        System.out.println("La posión de la posición "+pos+" tiene " +potionList[pos].points+" puntos");
     }
-    
-    public static String selectSaveFile(Scanner entrada,String Potions, String Items){
-        //variables locales:
-        int pos;      
-        String filename = "_";                
-        //escoger opcion:
-        do
-        {
-            pos=obtenerNumero(entrada,"¿Qué quieres guardar?: 1-Pociones 2-Items",1,2);      
-            switch(pos)
-            {
-                
-                case 1:
-                    System.out.println("Guardando pociones...");                    
-                    filename = Potions;
-                    break;
-                case 2:
-                    System.out.println("Guardando objetos...");                    
-                    filename = Items;
-                    break;
-                default:
-                    System.out.println("ERROR: Opción no valida!");                    
-                    break;
-            } 
-        }while(filename.equals("_"));
-        return filename;
-    }
-    
-    
-    
-
 }
