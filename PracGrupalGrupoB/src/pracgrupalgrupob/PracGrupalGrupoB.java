@@ -34,8 +34,8 @@ public class PracGrupalGrupoB {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        final String nombreArchivoTextoPocimas="potions.txt";
-        final String nombreArchivoTextoItems="items.txt";
+        final String nombreArchivoTextoPocimas="pjpotions.txt";
+        final String nombreArchivoTextoItems="pjitems.txt";
         final String nombreArchivoBinPocimas="potions.dat";
         final String nombreArchivoBinItems="items.dat";
         
@@ -167,7 +167,7 @@ public class PracGrupalGrupoB {
                case 10:
                 //Dani
                 System.out.println("----------------------------------------------------------");
-                cargarDesdeFicheroTexto(nombreArchivoTextoPocimas,potionList, topePotions, nombreArchivoTextoItems,itemList, topeItems);
+                mostrarDesdeFicheroTexto(nombreArchivoTextoPocimas,potionList, topePotions, nombreArchivoTextoItems,itemList, topeItems);
                 break;
                case 11:
                 //Dani
@@ -579,14 +579,68 @@ public class PracGrupalGrupoB {
     //da
     public static void guardarEnFicheroTexto(Scanner entrada,String nombreArchivoTextoPocimas,Potion[] potionList, int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-       switch(obtenerNumero(entrada,"¿Que quieres guardar? 1-Pócimas 2-Items 3-Ambos", topeItems, topeItems))
-       {
-           
-       }
+        int opcion=obtenerNumero(entrada,"¿Que quieres guardar? 1-Pócimas 2-Items 3-Ambos",1,3);
+
+        try
+        {
+            if (opcion == 1 || opcion == 3)
+            {
+                //Pocimas
+                BufferedWriter writeP= new BufferedWriter(new FileWriter(nombreArchivoTextoPocimas));
+                for (int i=0; i< topePotions; i++)
+                {
+                    Potion potion = potionList[i];
+                    String s = "ID: "+potion.id + "\tNombre: " + potion.name + "\tDescripción: " + potion.description + "\tTipo:" + potion.type + "\tPuntos: " + potion.points;
+                    writeP.write(s);
+                    writeP.newLine();
+                }
+                writeP.close();
+            }
+            if (opcion == 2 || opcion == 3)
+            {
+                //Items
+                BufferedWriter writeI= new BufferedWriter(new FileWriter(nombreArchivoTextoItems));
+                for (int i=0; i< topePotions; i++)
+                {
+                Item item = itemList[i];
+                String s = "ID: "+item.id + "\tNombre: " + item.name + "\tDescripción: " + item.description + "\tTipo:" + item.type + "\tExperiencia: " + item.experience;
+                writeI.write(s);
+                writeI.newLine();
+                }
+                writeI.close();
+            }
+            System.out.println("Fichero creado");
+        }
+        catch(IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
-    public static void cargarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList,int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
+    public static void mostrarDesdeFicheroTexto(String nombreArchivoTextoPocimas,Potion[] potionList,int topePotions, String nombreArchivoTextoItems, Item[] itemList, int topeItems)
     {
-        
+        try
+        {
+            String potion;
+            BufferedReader readP= new BufferedReader(new FileReader(nombreArchivoTextoPocimas));
+            do
+            {
+                potion=readP.readLine();
+                System.out.println(potion);
+            }while(potion!=null);
+            readP.close();
+            String item;
+            BufferedReader readI= new BufferedReader(new FileReader(nombreArchivoTextoItems));
+            do
+            {
+                item=readI.readLine();
+                System.out.println(item);
+            }while(item!=null);
+            readI.close();
+        }
+        catch(IOException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
     public static void guardarEnFicheroBin(String nombreArchivoBinPocimas,Potion[] potionList, int topePotions, String nombreArchivoBinItems, Item[] itemList, int topeItems)
     {
@@ -609,7 +663,7 @@ public class PracGrupalGrupoB {
         {
             System.out.println(e.getMessage());
         }
-        
+        System.out.println("Fichero creado");
     }
     //da
     public static int cargarDesdeFicheroBinPotions(String nombreArchivoBinPocimas,Potion[] potionList)
@@ -639,6 +693,7 @@ public class PracGrupalGrupoB {
         {
             System.out.println(ex.getMessage());
         }
+        System.out.println("Fichero cargado");
         return leidos;  
     }
     public static int cargarDesdeFicheroBinItems(String nombreArchivoBinItems, Item[] itemList)
@@ -667,6 +722,7 @@ public class PracGrupalGrupoB {
         {
             System.out.println(ex.getMessage());
         }
+        System.out.println("Fichero cargado");
         return leidos;  
     }
     public static void mostrarPuntosPocimas(Scanner entrada, Potion[] potionList, int topePotions)
