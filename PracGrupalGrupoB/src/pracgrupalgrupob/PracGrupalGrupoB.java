@@ -694,7 +694,7 @@ public class PracGrupalGrupoB {
             System.out.println(ex.getMessage());
         }
         System.out.println("Fichero cargado");
-        return leidos;  
+        return leidos;   
     }
     public static int cargarDesdeFicheroBinItems(String nombreArchivoBinItems, Item[] itemList)
     {
